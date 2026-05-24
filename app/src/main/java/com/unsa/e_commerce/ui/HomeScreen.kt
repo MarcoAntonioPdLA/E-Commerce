@@ -28,7 +28,10 @@ import com.unsa.e_commerce.ui.components.SearchBar
 
 @Composable
 fun HomeScreen() {
-    var text: String by remember { mutableStateOf("") }
+    var searchText: String by remember { mutableStateOf("") }
+    val filteredProducts: List<Product> = ProductRepository.products.filter { product ->
+        product.name.contains(searchText, ignoreCase = true)
+    }
 
     Scaffold(
         topBar = { MyTopAppBar() },
@@ -41,8 +44,8 @@ fun HomeScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 SearchBar(
-                    value = "Buscar productos",
-                    onValueChange = { text = it },
+                    value = searchText,
+                    onValueChange = { searchText = it },
                     modifier = Modifier.weight(1f)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
@@ -53,7 +56,7 @@ fun HomeScreen() {
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            ProductList(ProductRepository.products)
+            ProductList(filteredProducts)
         }
     }
 }

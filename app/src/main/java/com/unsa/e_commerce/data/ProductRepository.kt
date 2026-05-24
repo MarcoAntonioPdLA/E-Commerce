@@ -3,7 +3,7 @@ package com.unsa.e_commerce.data
 import com.unsa.e_commerce.R
 
 object ProductRepository {
-    val products = listOf(
+    val products: List<Product> = listOf(
         Product(id = 1, name = "Laptop", image = R.drawable.laptop, price = 3499.90),
         Product(id = 2, name = "Mouse", image = R.drawable.mouse, price = 99.90),
         Product(id = 3, name = "Teclado", image = R.drawable.keyboard, price = 129.90),
