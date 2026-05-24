@@ -1,4 +1,4 @@
-package com.unsa.e_commerce.ui
+package com.unsa.e_commerce.ui.screens
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,8 +18,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.unsa.e_commerce.data.Product
 import com.unsa.e_commerce.data.ProductRepository
+import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.MyNavigationBar
 import com.unsa.e_commerce.ui.components.MyTopAppBar
 import com.unsa.e_commerce.ui.components.PrimaryButton
@@ -27,7 +29,7 @@ import com.unsa.e_commerce.ui.components.ProductList
 import com.unsa.e_commerce.ui.components.SearchBar
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavController) {
     var searchText: String by remember { mutableStateOf("") }
     val filteredProducts: List<Product> = ProductRepository.products.filter { product ->
         product.name.contains(searchText, ignoreCase = true)
@@ -60,8 +62,11 @@ fun HomeScreen() {
             ProductList(
                 products = filteredProducts,
                 quantities = productsQuantities,
-                onQuantityChange = { productId, newQuantity ->
+                onProductQuantityChange = { productId, newQuantity ->
                     productsQuantities = productsQuantities + (productId to newQuantity)
+                },
+                onProductClick = { product ->
+                    navController.navigate(Routes.productDetail(product.id))
                 }
             )
         }

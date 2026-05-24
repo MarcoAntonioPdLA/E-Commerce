@@ -25,9 +25,10 @@ import androidx.compose.ui.unit.sp
 import com.unsa.e_commerce.data.Product
 
 @Composable
-fun ProductCard(product: Product, quantity: Int, onQuantityChange: (Int) -> Unit) {
+fun ProductCard(onClick: () -> Unit, product: Product, quantity: Int, onQuantityChange: (Int) -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(8.dp)
+        modifier = Modifier.fillMaxWidth().padding(8.dp),
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier.padding(all = 8.dp),
