@@ -29,21 +29,19 @@ import com.unsa.e_commerce.ui.components.ProductList
 import com.unsa.e_commerce.ui.components.SearchBar
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, productsQuantities: Map<Int, Int>, onProductQuantityChange: (Int, Int) -> Unit) {
     var searchText: String by remember { mutableStateOf("") }
     val filteredProducts: List<Product> = ProductRepository.products.filter { product ->
         product.name.contains(searchText, ignoreCase = true)
     }
-    var productsQuantities by remember { mutableStateOf(mapOf<Int, Int>()) }
 
     Scaffold(
         topBar = { MyTopAppBar() },
-        bottomBar = { MyNavigationBar() },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         Column(modifier = Modifier.padding(paddingValues = innerPadding)) {
             Row(
-                modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 SearchBar(
@@ -62,9 +60,7 @@ fun HomeScreen(navController: NavController) {
             ProductList(
                 products = filteredProducts,
                 quantities = productsQuantities,
-                onProductQuantityChange = { productId, newQuantity ->
-                    productsQuantities = productsQuantities + (productId to newQuantity)
-                },
+                onProductQuantityChange = onProductQuantityChange,
                 onProductClick = { product ->
                     navController.navigate(Routes.productDetail(product.id))
                 }

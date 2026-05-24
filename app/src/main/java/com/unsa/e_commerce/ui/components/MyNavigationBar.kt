@@ -8,40 +8,24 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import com.unsa.e_commerce.navigation.Routes
 
 @Composable
-fun MyNavigationBar() {
+fun MyNavigationBar(currentRoute: String?, navController: NavController) {
     NavigationBar {
         NavigationBarItem(
-            selected = true,
-            onClick = {
-
-            },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.Home,
-                    contentDescription = null
-                )
-            },
-            label = {
-                Text("Inicio")
-            }
+            selected = currentRoute == Routes.HOME,
+            onClick = { navController.navigate(Routes.HOME) },
+            icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "Inicio") },
+            label = { Text("Inicio") }
         )
 
         NavigationBarItem(
-            selected = false,
-            onClick = {
-
-            },
-            icon = {
-                Icon(
-                    imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = null
-                )
-            },
-            label = {
-                Text("Carrito")
-            }
+            selected = currentRoute == Routes.CART,
+            onClick = { navController.navigate(Routes.CART) },
+            icon = { Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "Carrito") },
+            label = { Text("Carrito") }
         )
     }
 }

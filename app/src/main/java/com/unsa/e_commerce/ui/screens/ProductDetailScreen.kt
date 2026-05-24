@@ -3,6 +3,7 @@ package com.unsa.e_commerce.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,23 +24,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.unsa.e_commerce.data.Product
+import com.unsa.e_commerce.ui.components.MyNavigationBar
+import com.unsa.e_commerce.ui.components.ProductDetailTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductDetailScreen(product: Product, navController: NavController) {
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                title = { Text(product.name) },
-                navigationIcon = {
-                    IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
-                    }
-                }
-            )
-        }
+        topBar = { ProductDetailTopAppBar(productName = product.name, navController = navController) },
+        modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding)) {
+        Column(modifier = Modifier.padding(innerPadding).fillMaxWidth().padding(horizontal = 8.dp)) {
             Image(
                 painter = painterResource(id = product.image),
                 contentDescription = product.name,
