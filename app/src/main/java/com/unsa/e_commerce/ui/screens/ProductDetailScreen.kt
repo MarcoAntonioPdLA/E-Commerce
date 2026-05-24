@@ -43,9 +43,9 @@ fun ProductDetailScreen(product: Product, navController: NavController) {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = product.name, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-            Text(text = "S/. %.2f".format(product.price), fontSize = 20.sp)
-            Spacer(modifier = Modifier.height(8.dp))
             Text(text = product.description)
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(text = "S/. %.2f".format(product.price), fontSize = 20.sp)
         }
     }
 }
