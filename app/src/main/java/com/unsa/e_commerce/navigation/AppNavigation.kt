@@ -1,6 +1,5 @@
 package com.unsa.e_commerce.navigation
 
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -17,7 +16,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.unsa.e_commerce.data.ProductRepository
 import com.unsa.e_commerce.ui.components.MyNavigationBar
-import com.unsa.e_commerce.ui.components.MyTopAppBar
 import com.unsa.e_commerce.ui.screens.CartScreen
 import com.unsa.e_commerce.ui.screens.HomeScreen
 import com.unsa.e_commerce.ui.screens.ProductDetailScreen
