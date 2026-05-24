@@ -32,6 +32,7 @@ fun HomeScreen() {
     val filteredProducts: List<Product> = ProductRepository.products.filter { product ->
         product.name.contains(searchText, ignoreCase = true)
     }
+    var productsQuantities by remember { mutableStateOf(mapOf<Int, Int>()) }
 
     Scaffold(
         topBar = { MyTopAppBar() },
@@ -56,7 +57,13 @@ fun HomeScreen() {
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            ProductList(filteredProducts)
+            ProductList(
+                products = filteredProducts,
+                quantities = productsQuantities,
+                onQuantityChange = { productId, newQuantity ->
+                    productsQuantities = productsQuantities + (productId to newQuantity)
+                }
+            )
         }
     }
 }
