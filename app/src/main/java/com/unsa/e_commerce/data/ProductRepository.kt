@@ -1,0 +1,15 @@
+package com.unsa.e_commerce.data
+
+import com.unsa.e_commerce.R
+
+object ProductRepository {
+    val products = listOf(
+        Product(id = 1, name = "Laptop", image = R.drawable.laptop, price = 3499.90),
+        Product(id = 2, name = "Mouse", image = R.drawable.mouse, price = 99.90),
+        Product(id = 3, name = "Teclado", image = R.drawable.keyboard, price = 129.90),
+        Product(id = 4, name = "Monitor", image = R.drawable.monitor, price = 499.90),
+        Product(id = 5, name = "Audífonos", image = R.drawable.headphones, price = 2499.90),
+        Product(id = 6, name = "Tablet", image = R.drawable.tablet, price = 1999.90),
+        Product(id = 7, name = "Mouse-pad", image = R.drawable.mouse_pad, price = 29.90)
+    )
+}

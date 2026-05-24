@@ -18,6 +18,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.unsa.e_commerce.data.Product
+import com.unsa.e_commerce.data.ProductRepository
 import com.unsa.e_commerce.ui.components.MyNavigationBar
 import com.unsa.e_commerce.ui.components.MyTopAppBar
 import com.unsa.e_commerce.ui.components.PrimaryButton
@@ -27,7 +29,6 @@ import com.unsa.e_commerce.ui.components.SearchBar
 @Composable
 fun HomeScreen() {
     var text: String by remember { mutableStateOf("") }
-    val products = listOf("Laptop", "Mouse", "Teclado", "Monitor")
 
     Scaffold(
         topBar = { MyTopAppBar() },
@@ -36,7 +37,7 @@ fun HomeScreen() {
     ) { innerPadding ->
         Column(modifier = Modifier.padding(paddingValues = innerPadding)) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 SearchBar(
@@ -52,7 +53,7 @@ fun HomeScreen() {
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            ProductList(products)
+            ProductList(ProductRepository.products)
         }
     }
 }

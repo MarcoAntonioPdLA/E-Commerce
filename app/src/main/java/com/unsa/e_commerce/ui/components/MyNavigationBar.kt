@@ -14,7 +14,9 @@ fun MyNavigationBar() {
     NavigationBar {
         NavigationBarItem(
             selected = true,
-            onClick = {},
+            onClick = {
+
+            },
             icon = {
                 Icon(
                     imageVector = Icons.Default.Home,
@@ -28,7 +30,9 @@ fun MyNavigationBar() {
 
         NavigationBarItem(
             selected = false,
-            onClick = {},
+            onClick = {
+
+            },
             icon = {
                 Icon(
                     imageVector = Icons.Default.ShoppingCart,
