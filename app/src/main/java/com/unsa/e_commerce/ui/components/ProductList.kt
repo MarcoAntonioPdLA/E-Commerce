@@ -3,7 +3,7 @@ package com.unsa.e_commerce.ui.components
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import com.unsa.e_commerce.data.Product
+import com.unsa.e_commerce.data.model.Product
 
 @Composable
 fun ProductList(products: List<Product>, quantities: Map<Int, Int>, onProductQuantityChange: (Int, Int) -> Unit, onProductClick: (Product) -> Unit) {

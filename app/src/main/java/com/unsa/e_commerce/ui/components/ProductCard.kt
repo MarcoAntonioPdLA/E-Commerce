@@ -18,7 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.unsa.e_commerce.data.Product
+import com.unsa.e_commerce.data.model.Product
 
 @Composable
 fun ProductCard(onClick: () -> Unit, product: Product, quantity: Int, onQuantityChange: (Int) -> Unit) {

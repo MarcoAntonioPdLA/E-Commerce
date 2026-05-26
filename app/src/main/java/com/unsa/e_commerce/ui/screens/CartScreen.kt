@@ -19,14 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.unsa.e_commerce.data.Product
-import com.unsa.e_commerce.data.ProductRepository
+import com.unsa.e_commerce.data.model.Product
+import com.unsa.e_commerce.data.repository.ProductRepository
 import com.unsa.e_commerce.ui.components.CartProductCard
 import com.unsa.e_commerce.ui.components.MyTopAppBar
 
 @Composable
 fun CartScreen(navController: NavController, productsQuantities: Map<Int, Int>) {
-    val cartProducts: List<Product> = ProductRepository.products.filter { product ->
+    val cartProducts: List<Product> = ProductRepository.getAllProducts().filter { product ->
         (productsQuantities[product.id] ?: 0) >= 1
     }
     val totalPrice: Double = calculateTotalPrice(productsQuantities)
@@ -62,7 +62,7 @@ fun CartScreen(navController: NavController, productsQuantities: Map<Int, Int>) 
 
 fun calculateTotalPrice(productsQuantities: Map<Int, Int>): Double {
     return productsQuantities.entries.sumOf { (productId, quantity) ->
-        val product = ProductRepository.products.find { it.id == productId }
+        val product = ProductRepository.getAllProducts().find { it.id == productId }
         (product?.price ?: 0.0) * quantity
     }
 }

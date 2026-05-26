@@ -19,10 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.unsa.e_commerce.data.Product
-import com.unsa.e_commerce.data.ProductRepository
+import com.unsa.e_commerce.data.model.Product
+import com.unsa.e_commerce.data.repository.ProductRepository
 import com.unsa.e_commerce.navigation.Routes
-import com.unsa.e_commerce.ui.components.MyNavigationBar
 import com.unsa.e_commerce.ui.components.MyTopAppBar
 import com.unsa.e_commerce.ui.components.PrimaryButton
 import com.unsa.e_commerce.ui.components.ProductList
@@ -31,7 +30,7 @@ import com.unsa.e_commerce.ui.components.SearchBar
 @Composable
 fun HomeScreen(navController: NavController, productsQuantities: Map<Int, Int>, onProductQuantityChange: (Int, Int) -> Unit) {
     var searchText: String by remember { mutableStateOf("") }
-    val filteredProducts: List<Product> = ProductRepository.products.filter { product ->
+    val filteredProducts: List<Product> = ProductRepository.getAllProducts().filter { product ->
         product.name.contains(searchText, ignoreCase = true)
     }
 

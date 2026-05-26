@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.unsa.e_commerce.data.Product
+import com.unsa.e_commerce.data.model.Product
 import com.unsa.e_commerce.ui.components.ProductDetailTopAppBar
 
 @OptIn(ExperimentalMaterial3Api::class)
