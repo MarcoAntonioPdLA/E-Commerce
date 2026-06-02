@@ -7,67 +7,58 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.unsa.e_commerce.data.repository.UserRepository
 import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.MyTopAppBar
-import com.unsa.e_commerce.ui.forms.LoginForm
 
 @Composable
-fun LoginScreen(navController: NavController) {
-    var loginError by remember { mutableStateOf<String?>(null) }
-
+fun ProfileScreen(navController: NavController) {
     Scaffold(
         topBar = { MyTopAppBar() },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(paddingValues = innerPadding).fillMaxSize().padding(horizontal = 8.dp),
+            modifier = Modifier.padding(innerPadding).fillMaxSize().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Icon(
-                modifier = Modifier.size(100.dp),
                 imageVector = Icons.Default.AccountCircle,
-                contentDescription = "LoginImage",
+                contentDescription = "Profile Picture",
+                modifier = Modifier.size(120.dp),
                 tint = MaterialTheme.colorScheme.primary
             )
-
-            loginError?.let { error ->
-                Text(
-                    text = error,
-                    color = Color.Red,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
-
-            LoginForm(
-                onSuccessfulLogin = {
-                    loginError = null
-                    navController.navigate(Routes.PROFILE_SCREEN)
-                },
-                onFailedLogin = {
-                    loginError = "Usuario o contraseña incorrectos"
-                }
+            
+            Text(
+                text = "Bienvenido a tu perfil",
+                style = MaterialTheme.typography.headlineMedium
+            )
+            
+            Text(
+                text = "ID de Usuario: ${UserRepository.currentUserId}",
+                style = MaterialTheme.typography.bodyLarge
             )
 
-            TextButton(
-                onClick = { navController.navigate(Routes.REGISTER_SCREEN) }
+            Button(
+                onClick = {
+                    UserRepository.logout()
+                    navController.navigate(Routes.LOGIN_SCREEN) {
+                        popUpTo(Routes.PROFILE_SCREEN) { inclusive = true }
+                    }
+                },
+                modifier = Modifier.padding(top = 32.dp)
             ) {
-                Text("¿No tienes cuenta? Regístrate aquí")
+                Text("Cerrar Sesión")
             }
         }
     }

@@ -19,13 +19,23 @@ import com.unsa.e_commerce.ui.components.MainNavigationBar
 import com.unsa.e_commerce.ui.screens.CartScreen
 import com.unsa.e_commerce.ui.screens.HomeScreen
 import com.unsa.e_commerce.ui.screens.LoginScreen
+import com.unsa.e_commerce.ui.screens.ProfileScreen
+import com.unsa.e_commerce.ui.screens.RegisterScreen
 import com.unsa.e_commerce.ui.screens.ProductDetailScreen
 
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
     val currentRoute: String? = navController.currentBackStackEntryAsState().value?.destination?.route
-    val showBottomBar: Boolean = currentRoute in listOf(Routes.HOME_SCREEN, Routes.CART_SCREEN, Routes.LOGIN_SCREEN)
+    
+    // Agregamos las nuevas rutas para que la barra inferior sea visible en ellas
+    val showBottomBar: Boolean = currentRoute in listOf(
+        Routes.HOME_SCREEN, 
+        Routes.CART_SCREEN, 
+        Routes.LOGIN_SCREEN,
+        Routes.REGISTER_SCREEN,
+        Routes.PROFILE_SCREEN
+    )
 
     var productsQuantities by remember { mutableStateOf(mapOf<Int, Int>()) }
 
@@ -57,9 +67,13 @@ fun AppNavigation() {
                 )
             }
             composable(Routes.LOGIN_SCREEN) {
-                LoginScreen(
-                    navController = navController
-                )
+                LoginScreen(navController = navController)
+            }
+            composable(Routes.REGISTER_SCREEN) {
+                RegisterScreen(navController = navController)
+            }
+            composable(Routes.PROFILE_SCREEN) {
+                ProfileScreen(navController = navController)
             }
             composable(
                 Routes.PRODUCT_DETAIL_SCREEN,

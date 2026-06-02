@@ -10,6 +10,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
+import com.unsa.e_commerce.data.repository.UserRepository
 import com.unsa.e_commerce.navigation.Routes
 
 @Composable
@@ -29,9 +30,16 @@ fun MainNavigationBar(currentRoute: String?, navController: NavController) {
             label = { Text("Carrito") }
         )
 
+        val accountRoutes: List<String> = listOf(Routes.LOGIN_SCREEN, Routes.REGISTER_SCREEN, Routes.PROFILE_SCREEN)
         NavigationBarItem(
-            selected = currentRoute == Routes.LOGIN_SCREEN,
-            onClick = { navController.navigate(Routes.LOGIN_SCREEN) },
+            selected = currentRoute in accountRoutes,
+            onClick = {
+                if (UserRepository.isLoggedIn) {
+                    navController.navigate(Routes.PROFILE_SCREEN)
+                } else {
+                    navController.navigate(Routes.LOGIN_SCREEN)
+                }
+            },
             icon = { Icon(imageVector = Icons.Default.AccountCircle, contentDescription = "Cuenta") },
             label = { Text("Cuenta") }
         )
