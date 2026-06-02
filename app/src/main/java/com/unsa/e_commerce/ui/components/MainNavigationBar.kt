@@ -10,7 +10,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
-import com.unsa.e_commerce.data.repository.UserRepository
+import com.unsa.e_commerce.data.repositories.UserRepository
 import com.unsa.e_commerce.navigation.Routes
 
 @Composable

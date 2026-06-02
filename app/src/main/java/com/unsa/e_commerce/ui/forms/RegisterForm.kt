@@ -17,10 +17,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.unsa.e_commerce.data.repositories.UserRepository
 
+object RegisterMessages {
+    const val PASSWORD_MISMATCH_ERROR: String = "Las contraseñas no coinciden."
+    const val USER_ALREADY_REGISTERED_ERROR: String = "El nombre de usuario ya está registrado."
+}
+
 @Composable
-fun LoginForm(modifier: Modifier = Modifier, onLogin: (String, String) -> Unit) {
+fun RegisterForm(modifier: Modifier = Modifier, onSuccessfulRegister: () -> Unit, onFailedRegister: () -> Unit) {
     var username: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
+    var passwordConfirmation: String by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier.fillMaxWidth().padding(16.dp),
@@ -43,7 +49,12 @@ fun LoginForm(modifier: Modifier = Modifier, onLogin: (String, String) -> Unit) 
                 Text("Contraseña:")
             }
         )
-        Button(onClick = { onLogin(username, password) }) {
+        Button(
+            onClick = {
+                if(UserRepository.login(username, password)) onSuccessfulRegister()
+                else onFailedRegister()
+            }
+        ) {
             Text("Iniciar sesión")
         }
     }

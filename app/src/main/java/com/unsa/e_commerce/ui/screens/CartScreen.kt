@@ -14,8 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.unsa.e_commerce.data.model.Product
-import com.unsa.e_commerce.data.repository.ProductRepository
+import com.unsa.e_commerce.data.models.Product
+import com.unsa.e_commerce.data.repositories.ProductRepository
 import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.CartProductCard
 import com.unsa.e_commerce.ui.components.MyTopAppBar

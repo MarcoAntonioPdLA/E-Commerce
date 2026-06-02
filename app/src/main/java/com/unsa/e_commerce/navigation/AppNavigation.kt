@@ -14,7 +14,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.unsa.e_commerce.data.repository.ProductRepository
+import com.unsa.e_commerce.data.repositories.ProductRepository
 import com.unsa.e_commerce.ui.components.MainNavigationBar
 import com.unsa.e_commerce.ui.screens.CartScreen
 import com.unsa.e_commerce.ui.screens.CheckoutScreen
@@ -28,8 +28,6 @@ import com.unsa.e_commerce.ui.screens.ProductDetailScreen
 fun AppNavigation() {
     val navController = rememberNavController()
     val currentRoute: String? = navController.currentBackStackEntryAsState().value?.destination?.route
-    
-    // Agregamos las nuevas rutas para que la barra inferior sea visible en ellas
     val showBottomBar: Boolean = currentRoute in listOf(
         Routes.HOME_SCREEN, 
         Routes.CART_SCREEN, 
@@ -42,11 +40,7 @@ fun AppNavigation() {
     var productsQuantities by remember { mutableStateOf(mapOf<Int, Int>()) }
 
     Scaffold(
-        bottomBar = {
-            if(showBottomBar) {
-                MainNavigationBar(currentRoute = currentRoute, navController)
-            }
-        }
+        bottomBar = { MainNavigationBar(currentRoute = currentRoute, navController) }
     ) { innerPadding ->
         NavHost(
             navController = navController,

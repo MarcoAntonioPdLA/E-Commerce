@@ -1,4 +1,4 @@
-package com.unsa.e_commerce.data.model
+package com.unsa.e_commerce.data.models
 
 data class User(
     val id: Int,

@@ -17,7 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.unsa.e_commerce.data.repository.UserRepository
+import com.unsa.e_commerce.data.repositories.UserRepository
 import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.MyTopAppBar
 

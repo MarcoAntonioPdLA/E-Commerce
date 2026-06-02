@@ -21,15 +21,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.MyTopAppBar
 import com.unsa.e_commerce.ui.forms.LoginForm
+import com.unsa.e_commerce.ui.view_models.LoginViewModel
 
 @Composable
-fun LoginScreen(navController: NavController) {
-    var loginError by remember { mutableStateOf<String?>(null) }
-
+fun LoginScreen(
+    navController: NavController,
+    viewModel: LoginViewModel = viewModel()
+) {
     Scaffold(
         topBar = { MyTopAppBar() },
         modifier = Modifier.fillMaxSize()
@@ -45,25 +48,16 @@ fun LoginScreen(navController: NavController) {
                 contentDescription = "LoginImage",
                 tint = MaterialTheme.colorScheme.primary
             )
-
-            loginError?.let { error ->
-                Text(
-                    text = error,
-                    color = Color.Red,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
+            viewModel.errorMessage?.let { message ->
+                Text(text = message, color = Color.Red)
             }
-
             LoginForm(
-                onSuccessfulLogin = {
-                    loginError = null
-                    navController.navigate(Routes.PROFILE_SCREEN)
-                },
-                onFailedLogin = {
-                    loginError = "Usuario o contraseña incorrectos"
+                onLogin = { username, password ->
+                    viewModel.login(username, password) {
+                        navController.navigate(Routes.PROFILE_SCREEN)
+                    }
                 }
             )
-
             TextButton(
                 onClick = { navController.navigate(Routes.REGISTER_SCREEN) }
             ) {

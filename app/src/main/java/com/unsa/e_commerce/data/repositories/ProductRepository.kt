@@ -1,7 +1,7 @@
-package com.unsa.e_commerce.data.repository
+package com.unsa.e_commerce.data.repositories
 
 import com.unsa.e_commerce.R
-import com.unsa.e_commerce.data.model.Product
+import com.unsa.e_commerce.data.models.Product
 
 object ProductRepository {
     private val products: List<Product> = listOf(
