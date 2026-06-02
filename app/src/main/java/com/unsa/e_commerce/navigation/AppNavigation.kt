@@ -17,6 +17,7 @@ import androidx.navigation.navArgument
 import com.unsa.e_commerce.data.repository.ProductRepository
 import com.unsa.e_commerce.ui.components.MainNavigationBar
 import com.unsa.e_commerce.ui.screens.CartScreen
+import com.unsa.e_commerce.ui.screens.CheckoutScreen
 import com.unsa.e_commerce.ui.screens.HomeScreen
 import com.unsa.e_commerce.ui.screens.LoginScreen
 import com.unsa.e_commerce.ui.screens.ProfileScreen
@@ -34,7 +35,8 @@ fun AppNavigation() {
         Routes.CART_SCREEN, 
         Routes.LOGIN_SCREEN,
         Routes.REGISTER_SCREEN,
-        Routes.PROFILE_SCREEN
+        Routes.PROFILE_SCREEN,
+        Routes.CHECKOUT_SCREEN
     )
 
     var productsQuantities by remember { mutableStateOf(mapOf<Int, Int>()) }
@@ -62,6 +64,12 @@ fun AppNavigation() {
             }
             composable(Routes.CART_SCREEN) {
                 CartScreen(
+                    navController = navController,
+                    productsQuantities = productsQuantities
+                )
+            }
+            composable(Routes.CHECKOUT_SCREEN) {
+                CheckoutScreen(
                     navController = navController,
                     productsQuantities = productsQuantities
                 )

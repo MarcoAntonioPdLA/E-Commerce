@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.unsa.e_commerce.data.model.Product
 import com.unsa.e_commerce.data.repository.ProductRepository
+import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.CartProductCard
 import com.unsa.e_commerce.ui.components.MyTopAppBar
 
@@ -46,7 +47,7 @@ fun CartScreen(navController: NavController, productsQuantities: Map<Int, Int>) 
                 text =  "Precio total: S/. %.2f".format(totalPrice)
             )
             Button(
-                onClick = {},
+                onClick = { navController.navigate(Routes.CHECKOUT_SCREEN) },
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
             ) {
                 Text(text = "Comprar")

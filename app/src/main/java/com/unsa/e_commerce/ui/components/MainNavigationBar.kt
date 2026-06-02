@@ -24,7 +24,7 @@ fun MainNavigationBar(currentRoute: String?, navController: NavController) {
         )
 
         NavigationBarItem(
-            selected = currentRoute == Routes.CART_SCREEN,
+            selected = currentRoute == Routes.CART_SCREEN || currentRoute == Routes.CHECKOUT_SCREEN,
             onClick = { navController.navigate(Routes.CART_SCREEN) },
             icon = { Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "Carrito") },
             label = { Text("Carrito") }
