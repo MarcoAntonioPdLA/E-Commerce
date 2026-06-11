@@ -12,9 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import com.unsa.e_commerce.data.repositories.UserRepository
 import com.unsa.e_commerce.navigation.Routes
+import com.unsa.e_commerce.ui.view_models.UserViewModel
 
 @Composable
-fun MainNavigationBar(currentRoute: String?, navController: NavController) {
+fun MainNavigationBar(
+    currentRoute: String?,
+    userViewModel: UserViewModel,
+    navController: NavController
+) {
     val productsRoutes: List<String> = listOf(Routes.HOME_SCREEN, Routes.PRODUCT_DETAIL_SCREEN)
     val cartRoutes: List<String> = listOf(Routes.CART_SCREEN, Routes.CHECKOUT_SCREEN)
     val accountRoutes: List<String> = listOf(Routes.LOGIN_SCREEN, Routes.REGISTER_SCREEN, Routes.PROFILE_SCREEN)
@@ -22,7 +27,7 @@ fun MainNavigationBar(currentRoute: String?, navController: NavController) {
         NavigationBarItem(
             selected = currentRoute in productsRoutes,
             onClick = {
-                if(currentRoute !== Routes.HOME_SCREEN) {
+                if(currentRoute != Routes.HOME_SCREEN) {
                     navController.navigate(Routes.HOME_SCREEN)
                 }
             },
@@ -33,7 +38,7 @@ fun MainNavigationBar(currentRoute: String?, navController: NavController) {
         NavigationBarItem(
             selected = currentRoute in cartRoutes,
             onClick = {
-                if(currentRoute !== Routes.CART_SCREEN) {
+                if(currentRoute != Routes.CART_SCREEN) {
                     navController.navigate(Routes.CART_SCREEN)
                 }
             },
@@ -44,7 +49,7 @@ fun MainNavigationBar(currentRoute: String?, navController: NavController) {
         NavigationBarItem(
             selected = currentRoute in accountRoutes,
             onClick = {
-                if (UserRepository.isLoggedIn) {
+                if (userViewModel.isLoggedIn) {
                     navController.navigate(Routes.PROFILE_SCREEN)
                 } else {
                     navController.navigate(Routes.LOGIN_SCREEN)

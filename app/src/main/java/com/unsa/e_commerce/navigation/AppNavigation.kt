@@ -23,16 +23,24 @@ import com.unsa.e_commerce.ui.screens.LoginScreen
 import com.unsa.e_commerce.ui.screens.ProfileScreen
 import com.unsa.e_commerce.ui.screens.RegisterScreen
 import com.unsa.e_commerce.ui.screens.ProductDetailScreen
+import com.unsa.e_commerce.ui.view_models.UserViewModel
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(
+    userViewModel: UserViewModel
+) {
     val navController = rememberNavController()
     val currentRoute: String? = navController.currentBackStackEntryAsState().value?.destination?.route
-
     var productsQuantities by remember { mutableStateOf(mapOf<Int, Int>()) }
 
     Scaffold(
-        bottomBar = { MainNavigationBar(currentRoute = currentRoute, navController) }
+        bottomBar = {
+            MainNavigationBar(
+                currentRoute = currentRoute,
+                userViewModel = userViewModel,
+                navController = navController
+            )
+        }
     ) { innerPadding ->
         NavHost(
             navController = navController,
@@ -61,7 +69,9 @@ fun AppNavigation() {
                 )
             }
             composable(Routes.LOGIN_SCREEN) {
-                LoginScreen(navController = navController)
+                LoginScreen(
+                    userViewModel = userViewModel
+                )
             }
             composable(Routes.REGISTER_SCREEN) {
                 RegisterScreen(navController = navController)

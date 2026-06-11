@@ -27,11 +27,12 @@ import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.MyTopAppBar
 import com.unsa.e_commerce.ui.forms.LoginForm
 import com.unsa.e_commerce.ui.view_models.LoginViewModel
+import com.unsa.e_commerce.ui.view_models.UserViewModel
 
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: LoginViewModel = viewModel()
+    viewModel: UserViewModel = viewModel()
 ) {
     Scaffold(
         topBar = { MyTopAppBar() },
