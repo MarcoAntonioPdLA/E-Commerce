@@ -15,22 +15,32 @@ import com.unsa.e_commerce.navigation.Routes
 
 @Composable
 fun MainNavigationBar(currentRoute: String?, navController: NavController) {
+    val productsRoutes: List<String> = listOf(Routes.HOME_SCREEN, Routes.PRODUCT_DETAIL_SCREEN)
+    val cartRoutes: List<String> = listOf(Routes.CART_SCREEN, Routes.CHECKOUT_SCREEN)
+    val accountRoutes: List<String> = listOf(Routes.LOGIN_SCREEN, Routes.REGISTER_SCREEN, Routes.PROFILE_SCREEN)
     NavigationBar {
         NavigationBarItem(
-            selected = currentRoute == Routes.HOME_SCREEN,
-            onClick = { navController.navigate(Routes.HOME_SCREEN) },
+            selected = currentRoute in productsRoutes,
+            onClick = {
+                if(currentRoute !== Routes.HOME_SCREEN) {
+                    navController.navigate(Routes.HOME_SCREEN)
+                }
+            },
             icon = { Icon(imageVector = Icons.Default.Home, contentDescription = "Inicio") },
             label = { Text("Inicio") }
         )
 
         NavigationBarItem(
-            selected = currentRoute == Routes.CART_SCREEN || currentRoute == Routes.CHECKOUT_SCREEN,
-            onClick = { navController.navigate(Routes.CART_SCREEN) },
+            selected = currentRoute in cartRoutes,
+            onClick = {
+                if(currentRoute !== Routes.CART_SCREEN) {
+                    navController.navigate(Routes.CART_SCREEN)
+                }
+            },
             icon = { Icon(imageVector = Icons.Default.ShoppingCart, contentDescription = "Carrito") },
             label = { Text("Carrito") }
         )
 
-        val accountRoutes: List<String> = listOf(Routes.LOGIN_SCREEN, Routes.REGISTER_SCREEN, Routes.PROFILE_SCREEN)
         NavigationBarItem(
             selected = currentRoute in accountRoutes,
             onClick = {

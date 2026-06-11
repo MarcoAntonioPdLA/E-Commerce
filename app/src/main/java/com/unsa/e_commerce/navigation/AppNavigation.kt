@@ -28,14 +28,6 @@ import com.unsa.e_commerce.ui.screens.ProductDetailScreen
 fun AppNavigation() {
     val navController = rememberNavController()
     val currentRoute: String? = navController.currentBackStackEntryAsState().value?.destination?.route
-    val showBottomBar: Boolean = currentRoute in listOf(
-        Routes.HOME_SCREEN, 
-        Routes.CART_SCREEN, 
-        Routes.LOGIN_SCREEN,
-        Routes.REGISTER_SCREEN,
-        Routes.PROFILE_SCREEN,
-        Routes.CHECKOUT_SCREEN
-    )
 
     var productsQuantities by remember { mutableStateOf(mapOf<Int, Int>()) }
 
