@@ -100,7 +100,7 @@ fun CheckoutScreen(
                 Button(
                     onClick = {
                         // Finalizar compra
-                        cartViewModel.clearCart()
+                        cartViewModel.completePurchase()
                         navController.navigate(Routes.HOME_SCREEN) {
                             popUpTo(Routes.HOME_SCREEN) { inclusive = true }
                         }

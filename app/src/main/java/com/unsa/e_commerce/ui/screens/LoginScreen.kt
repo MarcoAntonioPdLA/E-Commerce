@@ -52,8 +52,7 @@ fun LoginScreen(
             }
             LoginForm(
                 onLogin = { username, password ->
-                    loginViewModel.login(username, password) { userId ->
-                        userViewModel.setUserId(userId)
+                    loginViewModel.login(username, password) { _ ->
                         onLoginSuccess()
                     }
                 }
