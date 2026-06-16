@@ -13,15 +13,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.MyTopAppBar
@@ -32,7 +28,9 @@ import com.unsa.e_commerce.ui.view_models.UserViewModel
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: UserViewModel = viewModel()
+    userViewModel: UserViewModel,
+    loginViewModel: LoginViewModel = hiltViewModel(),
+    onLoginSuccess: () -> Unit
 ) {
     Scaffold(
         topBar = { MyTopAppBar() },
@@ -49,13 +47,14 @@ fun LoginScreen(
                 contentDescription = "LoginImage",
                 tint = MaterialTheme.colorScheme.primary
             )
-            viewModel.errorMessage?.let { message ->
+            loginViewModel.errorMessage?.let { message ->
                 Text(text = message, color = Color.Red)
             }
             LoginForm(
                 onLogin = { username, password ->
-                    viewModel.login(username, password) {
-                        navController.navigate(Routes.PROFILE_SCREEN)
+                    loginViewModel.login(username, password) { userId ->
+                        userViewModel.setUserId(userId)
+                        onLoginSuccess()
                     }
                 }
             )

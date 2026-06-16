@@ -17,12 +17,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.unsa.e_commerce.data.repositories.UserRepository
 import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.MyTopAppBar
+import com.unsa.e_commerce.ui.view_models.UserViewModel
 
 @Composable
-fun ProfileScreen(navController: NavController) {
+fun ProfileScreen(
+    navController: NavController,
+    userViewModel: UserViewModel
+) {
     Scaffold(
         topBar = { MyTopAppBar() },
         modifier = Modifier.fillMaxSize()
@@ -44,16 +47,18 @@ fun ProfileScreen(navController: NavController) {
                 style = MaterialTheme.typography.headlineMedium
             )
             
-            Text(
-                text = "ID de Usuario: ${UserRepository.currentUserId}",
-                style = MaterialTheme.typography.bodyLarge
-            )
+            userViewModel.currentUserId?.let { id ->
+                Text(
+                    text = "ID de Usuario: $id",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
 
             Button(
                 onClick = {
-                    UserRepository.logout()
+                    userViewModel.logout()
                     navController.navigate(Routes.LOGIN_SCREEN) {
-                        popUpTo(Routes.PROFILE_SCREEN) { inclusive = true }
+                        popUpTo(Routes.HOME_SCREEN) { inclusive = false }
                     }
                 },
                 modifier = Modifier.padding(top = 32.dp)

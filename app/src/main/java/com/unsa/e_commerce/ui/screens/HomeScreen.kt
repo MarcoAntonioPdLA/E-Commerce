@@ -18,25 +18,25 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.unsa.e_commerce.data.models.Product
-import com.unsa.e_commerce.data.repositories.ProductRepository
 import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.MyTopAppBar
 import com.unsa.e_commerce.ui.components.PrimaryButton
 import com.unsa.e_commerce.ui.components.ProductList
 import com.unsa.e_commerce.ui.components.SearchBar
+import com.unsa.e_commerce.ui.view_models.CartViewModel
 import com.unsa.e_commerce.ui.view_models.HomeViewModel
 
 @Composable
 fun HomeScreen(
     navController: NavController,
-    productsQuantities: Map<Int, Int>,
-    onProductQuantityChange: (Int, Int) -> Unit,
-    viewModel: HomeViewModel = HomeViewModel()
+    cartViewModel: CartViewModel,
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     var searchText: String by remember { mutableStateOf("") }
-    val products: List<Product> = viewModel.products
+    val products: List<Product> = homeViewModel.products
     val filteredProducts: List<Product> = products.filter { product ->
         product.name.contains(searchText, ignoreCase = true)
     }
@@ -65,8 +65,10 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(16.dp))
             ProductList(
                 products = filteredProducts,
-                quantities = productsQuantities,
-                onProductQuantityChange = onProductQuantityChange,
+                quantities = cartViewModel.productsQuantities,
+                onProductQuantityChange = { productId, newQuantity ->
+                    cartViewModel.updateQuantity(productId, newQuantity)
+                },
                 onProductClick = { product ->
                     navController.navigate(Routes.productDetail(product.id))
                 }

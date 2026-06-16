@@ -10,14 +10,16 @@ import com.unsa.e_commerce.ui.screens.HomeScreen
 import com.unsa.e_commerce.ui.theme.ECommerceTheme
 import com.unsa.e_commerce.ui.view_models.UserViewModel
 
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val userViewModel: UserViewModel = viewModel()
             ECommerceTheme {
-                AppNavigation(userViewModel)
+                AppNavigation()
             }
         }
     }

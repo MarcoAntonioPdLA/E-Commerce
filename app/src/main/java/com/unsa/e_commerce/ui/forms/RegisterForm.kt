@@ -23,10 +23,15 @@ object RegisterMessages {
 }
 
 @Composable
-fun RegisterForm(modifier: Modifier = Modifier, onSuccessfulRegister: () -> Unit, onFailedRegister: () -> Unit) {
-    var username: String by remember { mutableStateOf("") }
-    var password: String by remember { mutableStateOf("") }
-    var passwordConfirmation: String by remember { mutableStateOf("") }
+fun RegisterForm(
+    modifier: Modifier = Modifier,
+    onRegister: (String, String) -> Boolean,
+    onSuccessfulRegister: () -> Unit,
+    onFailedRegister: (String) -> Unit
+) {
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordConfirmation by remember { mutableStateOf("") }
 
     Column(
         modifier = modifier.fillMaxWidth().padding(16.dp),
@@ -37,25 +42,34 @@ fun RegisterForm(modifier: Modifier = Modifier, onSuccessfulRegister: () -> Unit
             modifier = Modifier.fillMaxWidth(),
             value = username,
             onValueChange = { username = it },
-            label = {
-                Text("Nombre de usuario:")
-            }
+            label = { Text("Nombre de usuario:") }
         )
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = password,
             onValueChange = { password = it },
-            label = {
-                Text("Contraseña:")
-            }
+            label = { Text("Contraseña:") }
+        )
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = passwordConfirmation,
+            onValueChange = { passwordConfirmation = it },
+            label = { Text("Confirmar contraseña:") }
         )
         Button(
             onClick = {
-                if(UserRepository.login(username, password)) onSuccessfulRegister()
-                else onFailedRegister()
+                if (password != passwordConfirmation) {
+                    onFailedRegister(RegisterMessages.PASSWORD_MISMATCH_ERROR)
+                } else {
+                    if (onRegister(username, password)) {
+                        onSuccessfulRegister()
+                    } else {
+                        onFailedRegister(RegisterMessages.USER_ALREADY_REGISTERED_ERROR)
+                    }
+                }
             }
         ) {
-            Text("Iniciar sesión")
+            Text("Registrarse")
         }
     }
 }

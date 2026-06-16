@@ -3,7 +3,11 @@ package com.unsa.e_commerce.data.repositories
 import com.unsa.e_commerce.R
 import com.unsa.e_commerce.data.models.Product
 
-object ProductRepository {
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class ProductRepository @Inject constructor() {
     private val products: List<Product> = listOf(
         Product(
             id = 1,

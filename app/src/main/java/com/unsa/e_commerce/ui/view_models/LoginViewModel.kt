@@ -5,18 +5,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.unsa.e_commerce.data.repositories.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
     companion object {
         const val BAD_CREDENTIALS_ERROR: String = "Usuario o contraseña incorrectos."
     }
+    
     var errorMessage by mutableStateOf<String?>(null)
         private set
 
-    fun login(username: String, password: String, onSuccess: () -> Unit) {
-        if (UserRepository.login(username, password)) {
+    fun login(username: String, password: String, onLoginSuccess: (Int) -> Unit) {
+        val user = userRepository.findUser(username, password)
+        if (user != null) {
             errorMessage = null
-            onSuccess()
+            onLoginSuccess(user.id)
         } else {
             errorMessage = BAD_CREDENTIALS_ERROR
         }

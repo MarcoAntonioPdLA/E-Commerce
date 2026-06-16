@@ -14,18 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.unsa.e_commerce.data.models.Product
-import com.unsa.e_commerce.data.repositories.ProductRepository
 import com.unsa.e_commerce.navigation.Routes
 import com.unsa.e_commerce.ui.components.CartProductCard
 import com.unsa.e_commerce.ui.components.MyTopAppBar
+import com.unsa.e_commerce.ui.view_models.CartViewModel
 
 @Composable
-fun CartScreen(navController: NavController, productsQuantities: Map<Int, Int>) {
-    val cartProducts: List<Product> = ProductRepository.getAllProducts().filter { product ->
-        (productsQuantities[product.id] ?: 0) >= 1
-    }
-    val totalPrice: Double = calculateTotalPrice(productsQuantities)
+fun CartScreen(
+    navController: NavController, 
+    cartViewModel: CartViewModel
+) {
+    val cartItems = cartViewModel.getCartItems()
+    val totalPrice = cartViewModel.getTotal()
 
     Scaffold(
         topBar = { MyTopAppBar() }
@@ -36,29 +36,23 @@ fun CartScreen(navController: NavController, productsQuantities: Map<Int, Int>) 
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             LazyColumn(modifier = Modifier.weight(1f)) {
-                items(cartProducts) { product ->
+                items(cartItems) { (product, quantity) ->
                     CartProductCard(
                         product = product,
-                        quantity = productsQuantities[product.id] ?: 0
+                        quantity = quantity
                     )
                 }
             }
             Text(
-                text =  "Precio total: S/. %.2f".format(totalPrice)
+                text = "Precio total: S/. %.2f".format(totalPrice)
             )
             Button(
                 onClick = { navController.navigate(Routes.CHECKOUT_SCREEN) },
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp)
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                enabled = cartItems.isNotEmpty()
             ) {
                 Text(text = "Comprar")
             }
         }
-    }
-}
-
-fun calculateTotalPrice(productsQuantities: Map<Int, Int>): Double {
-    return productsQuantities.entries.sumOf { (productId, quantity) ->
-        val product = ProductRepository.getAllProducts().find { it.id == productId }
-        (product?.price ?: 0.0) * quantity
     }
 }
