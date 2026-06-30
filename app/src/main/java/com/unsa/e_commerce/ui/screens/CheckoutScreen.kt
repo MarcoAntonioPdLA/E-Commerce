@@ -23,7 +23,7 @@ fun CheckoutScreen(
     navController: NavController, 
     cartViewModel: CartViewModel
 ) {
-    val checkoutItems = cartViewModel.getCartItems()
+    val checkoutItems = cartViewModel.cartItems
     val totalPrice = cartViewModel.getTotal()
 
     Scaffold(
@@ -44,7 +44,9 @@ fun CheckoutScreen(
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
             }
-            items(checkoutItems) { (product, quantity) ->
+            items(checkoutItems) { item ->
+                val product = item.product
+                val quantity = item.quantity
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween

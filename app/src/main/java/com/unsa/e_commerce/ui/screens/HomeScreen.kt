@@ -66,8 +66,8 @@ fun HomeScreen(
             ProductList(
                 products = filteredProducts,
                 quantities = cartViewModel.productsQuantities,
-                onProductQuantityChange = { productId, newQuantity ->
-                    cartViewModel.updateQuantity(productId, newQuantity)
+                onProductQuantityChange = { product, newQuantity ->
+                    cartViewModel.updateQuantity(product, newQuantity)
                 },
                 onProductClick = { product ->
                     navController.navigate(Routes.productDetail(product.id))

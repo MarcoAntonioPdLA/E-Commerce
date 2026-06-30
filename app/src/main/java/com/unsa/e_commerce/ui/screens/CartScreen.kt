@@ -24,7 +24,7 @@ fun CartScreen(
     navController: NavController, 
     cartViewModel: CartViewModel
 ) {
-    val cartItems = cartViewModel.getCartItems()
+    val cartItems = cartViewModel.cartItems
     val totalPrice = cartViewModel.getTotal()
 
     Scaffold(
@@ -36,10 +36,13 @@ fun CartScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             LazyColumn(modifier = Modifier.weight(1f)) {
-                items(cartItems) { (product, quantity) ->
+                items(cartItems) { item ->
                     CartProductCard(
-                        product = product,
-                        quantity = quantity
+                        product = item.product,
+                        quantity = item.quantity,
+                        onQuantityChange = { newQuantity ->
+                            cartViewModel.updateQuantity(item.product, newQuantity)
+                        }
                     )
                 }
             }

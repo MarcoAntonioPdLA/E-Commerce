@@ -1,6 +1,7 @@
 package com.unsa.e_commerce.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,7 +22,7 @@ import coil.compose.AsyncImage
 import com.unsa.e_commerce.data.models.Product
 
 @Composable
-fun CartProductCard(product: Product, quantity: Int) {
+fun CartProductCard(product: Product, quantity: Int, onQuantityChange: (Int) -> Unit) {
     Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
         Row(
             modifier = Modifier.padding(8.dp),
@@ -39,7 +39,20 @@ fun CartProductCard(product: Product, quantity: Int) {
                 Text(text = product.title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 Text(text =  "S/. %.2f".format(product.price))
             }
-            Text(text = "x$quantity", fontSize = 18.sp)
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                FilledIconButtonSmall(
+                    symbol = "-",
+                    onClick = { onQuantityChange(quantity - 1) }
+                )
+                Text(text = quantity.toString(), fontSize = 18.sp)
+                FilledIconButtonSmall(
+                    symbol = "+",
+                    onClick = { onQuantityChange(quantity + 1) }
+                )
+            }
         }
     }
 }

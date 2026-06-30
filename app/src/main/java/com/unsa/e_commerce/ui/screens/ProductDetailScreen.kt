@@ -50,7 +50,7 @@ fun ProductDetailScreen(
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         product?.let { p ->
-            Column(modifier = Modifier.padding(innerPadding).fillMaxWidth().padding(horizontal = 8.dp)) {
+            Column(modifier = Modifier.padding(paddingValues = innerPadding).fillMaxWidth().padding(horizontal = 8.dp)) {
                 AsyncImage(
                     model = p.image,
                     contentDescription = p.title,
@@ -67,7 +67,7 @@ fun ProductDetailScreen(
                 
                 Button(
                     onClick = { 
-                        cartViewModel.addProduct(p.id)
+                        cartViewModel.addProduct(p)
                         navController.popBackStack()
                     },
                     modifier = Modifier.fillMaxWidth()

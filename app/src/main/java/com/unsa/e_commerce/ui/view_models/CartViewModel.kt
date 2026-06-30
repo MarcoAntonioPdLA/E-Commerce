@@ -1,5 +1,6 @@
 package com.unsa.e_commerce.ui.view_models
 
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -10,63 +11,82 @@ import com.unsa.e_commerce.data.repositories.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+data class CartItem(
+    val product: Product,
+    val quantity: Int
+)
+
 @HiltViewModel
 class CartViewModel @Inject constructor(
     private val productRepository: ProductRepository,
     private val cartLogger: CartLogger
 ) : ViewModel() {
     
-    // productId to quantity
-    var productsQuantities by mutableStateOf(mapOf<Int, Int>())
+    var cartItems by mutableStateOf<List<CartItem>>(emptyList())
         private set
 
-    fun addProduct(productId: Int) {
-        val currentQuantity = productsQuantities[productId] ?: 0
-        productsQuantities = productsQuantities + (productId to (currentQuantity + 1))
-        cartLogger.logAddToCart(productId, 1)
+    val productsQuantities by derivedStateOf {
+        cartItems.associate { it.product.id to it.quantity }
     }
 
-    fun removeProduct(productId: Int) {
-        val currentQuantity = productsQuantities[productId] ?: 0
-        if (currentQuantity > 1) {
-            productsQuantities = productsQuantities + (productId to (currentQuantity - 1))
+    fun addProduct(product: Product) {
+        val existingItem = cartItems.find { it.product.id == product.id }
+        if (existingItem != null) {
+            updateQuantity(product, existingItem.quantity + 1)
         } else {
-            productsQuantities = productsQuantities - productId
+            cartItems = cartItems + CartItem(product, 1)
+            cartLogger.logAddToCart(product.id, 1)
         }
-        cartLogger.logRemoveFromCart(productId)
+    }
+
+    fun removeProduct(product: Product) {
+        val productId = product.id
+        val existingItem = cartItems.find { it.product.id == productId }
+        if (existingItem != null) {
+            if (existingItem.quantity > 1) {
+                updateQuantity(product, existingItem.quantity - 1)
+            } else {
+                cartItems = cartItems.filter { it.product.id != productId }
+                cartLogger.logRemoveFromCart(productId)
+            }
+        }
     }
     
-    fun updateQuantity(productId: Int, newQuantity: Int) {
-        val currentQuantity = productsQuantities[productId] ?: 0
+    fun updateQuantity(product: Product, newQuantity: Int) {
+        val productId = product.id
         if (newQuantity <= 0) {
-            productsQuantities = productsQuantities - productId
+            cartItems = cartItems.filter { it.product.id != productId }
             cartLogger.logRemoveFromCart(productId)
         } else {
-            productsQuantities = productsQuantities + (productId to newQuantity)
-            if (newQuantity > currentQuantity) {
-                cartLogger.logAddToCart(productId, newQuantity - currentQuantity)
+            val existingItem = cartItems.find { it.product.id == productId }
+            if (existingItem == null) {
+                cartItems = cartItems + CartItem(product, newQuantity)
+                cartLogger.logAddToCart(productId, newQuantity)
+            } else {
+                val oldQuantity = existingItem.quantity
+                cartItems = cartItems.map {
+                    if (it.product.id == productId) it.copy(quantity = newQuantity) else it
+                }
+
+                if (newQuantity > oldQuantity) {
+                    cartLogger.logAddToCart(productId, newQuantity - oldQuantity)
+                }
             }
         }
     }
 
-    fun getCartItems(): List<Pair<Product, Int>> {
-        return productsQuantities.mapNotNull { (id, quantity) ->
-            productRepository.getProductById(id)?.let { it to quantity }
-        }
-    }
-
     fun getTotal(): Double {
-        return getCartItems().sumOf { (product, quantity) -> product.price * quantity }
+        return cartItems.sumOf { it.product.price * it.quantity }
     }
     
     fun clearCart() {
-        productsQuantities = emptyMap()
+        cartItems = emptyList()
         cartLogger.logClearCart()
     }
 
     fun completePurchase() {
         val total = getTotal()
-        val count = productsQuantities.values.sum()
+        val count = cartItems.sumOf { it.quantity }
         cartLogger.logPurchase(total, count)
         clearCart()
     }
