@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -18,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.unsa.e_commerce.data.models.Product
 
 @Composable
@@ -30,15 +32,15 @@ fun ProductCard(onClick: () -> Unit, product: Product, quantity: Int, onQuantity
             modifier = Modifier.padding(all = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = product.image),
-                contentDescription = product.name,
+            AsyncImage(
+                model = product.image,
+                contentDescription = product.title,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(80.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.padding(16.dp).weight(1f)) {
-                Text(text = product.name, fontSize = 20.sp)
+                Text(text = product.title, fontSize = 20.sp)
                 Text(text = "S/. %.2f".format(product.price))
             }
             Row(

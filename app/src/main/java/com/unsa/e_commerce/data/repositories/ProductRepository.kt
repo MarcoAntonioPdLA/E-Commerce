@@ -1,62 +1,70 @@
 package com.unsa.e_commerce.data.repositories
 
-import com.unsa.e_commerce.R
 import com.unsa.e_commerce.data.models.Product
-
+import com.unsa.e_commerce.data.remote.RetrofitClient
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class ProductRepository @Inject constructor() {
-    private val products: List<Product> = listOf(
+    suspend fun getAllProducts(): List<Product> = RetrofitClient.api.getProducts()
+    suspend fun getProductById(id: Int): Product = RetrofitClient.api.getProductById(id)
+    /*private val products: List<Product> = listOf(
         Product(
             id = 1,
             name = "Laptop",
             description = "Laptop con pantalla de 15 pulgadas.",
             image = R.drawable.laptop,
-            price = 3499.90
+            price = 3499.90,
+            category = "Sin categoría"
         ),
         Product(
             id = 2,
             name = "Mouse",
             description = "Mouse gamer con RGB.",
             image = R.drawable.mouse,
-            price = 99.90
+            price = 99.90,
+            category = "Sin categoría"
         ),
         Product(
             id = 3,
             name = "Teclado",
             description = "Teclado gamer con RGB.",
             image = R.drawable.keyboard,
-            price = 129.90
+            price = 129.90,
+            category = "Sin categoría"
         ),
         Product(
             id = 4,
             name = "Monitor",
             description = "Monitor de 24 pulgadas.",
             image = R.drawable.monitor,
-            price = 499.90
+            price = 499.90,
+            category = "Sin categoría"
         ),
         Product(
             id = 5,
             name = "Audífonos",
             description = "Audífonos inalámbricos.",
             image = R.drawable.headphones,
-            price = 159.90
+            price = 159.90,
+            category = "Sin categoría"
         ),
         Product(
             id = 6,
             name = "Tablet",
             description = "Tablet para tareas generales.",
             image = R.drawable.tablet,
-            price = 1999.90
+            price = 1999.90,
+            category = "Sin categoría"
         ),
         Product(
             id = 7,
             name = "Mouse-pad",
             description = "Mouse-pad bonito.",
             image = R.drawable.mouse_pad,
-            price = 29.90
+            price = 29.90,
+            category = "Sin categoría"
         )
     )
 
@@ -66,5 +74,5 @@ class ProductRepository @Inject constructor() {
 
     fun getProductById(id: Int): Product? {
         return products.find { it.id == id }
-    }
+    }*/
 }

@@ -6,7 +6,6 @@ import javax.inject.Singleton
 
 @Singleton
 class SessionLogger @Inject constructor() {
-
     fun logLogin(userId: Int, username: String) {
         Log.d("SessionLogger", "Evento: Inicio de sesión | Usuario ID: $userId | Nombre: $username")
     }

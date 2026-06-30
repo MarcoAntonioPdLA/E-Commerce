@@ -4,10 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.unsa.e_commerce.data.analytics.ProductVisitLogger
 import com.unsa.e_commerce.data.models.Product
 import com.unsa.e_commerce.data.repositories.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +21,13 @@ class ProductDetailViewModel @Inject constructor(
         private set
 
     fun loadProduct(productId: Int) {
-        product = repository.getProductById(productId)
-        visitLogger.logVisit(productId)
+        viewModelScope.launch {
+            try {
+                product = repository.getProductById(productId)
+                visitLogger.logVisit(productId)
+            } catch (e: Exception) {
+                // Controlar error, devolviendo Product vacío o algo así
+            }
+        }
     }
 }

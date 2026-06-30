@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.unsa.e_commerce.ui.components.ProductDetailTopAppBar
 import com.unsa.e_commerce.ui.view_models.CartViewModel
 import com.unsa.e_commerce.ui.view_models.ProductDetailViewModel
@@ -42,7 +43,7 @@ fun ProductDetailScreen(
     Scaffold(
         topBar = { 
             ProductDetailTopAppBar(
-                productName = product?.name ?: "Cargando...", 
+                productName = product?.title ?: "Cargando...",
                 navController = navController
             ) 
         },
@@ -50,14 +51,14 @@ fun ProductDetailScreen(
     ) { innerPadding ->
         product?.let { p ->
             Column(modifier = Modifier.padding(innerPadding).fillMaxWidth().padding(horizontal = 8.dp)) {
-                Image(
-                    painter = painterResource(id = p.image),
-                    contentDescription = p.name,
+                AsyncImage(
+                    model = p.image,
+                    contentDescription = p.title,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.fillMaxWidth().height(200.dp)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = p.name, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text(text = p.title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                 Text(text = p.description)
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(text = "S/. %.2f".format(p.price), fontSize = 20.sp)

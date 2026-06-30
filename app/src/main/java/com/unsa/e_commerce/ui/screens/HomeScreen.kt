@@ -38,7 +38,7 @@ fun HomeScreen(
     var searchText: String by remember { mutableStateOf("") }
     val products: List<Product> = homeViewModel.products
     val filteredProducts: List<Product> = products.filter { product ->
-        product.name.contains(searchText, ignoreCase = true)
+        product.title.contains(searchText, ignoreCase = true)
     }
 
     Scaffold(

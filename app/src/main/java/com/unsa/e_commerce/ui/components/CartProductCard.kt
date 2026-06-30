@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.unsa.e_commerce.data.models.Product
 
 @Composable
@@ -27,15 +28,15 @@ fun CartProductCard(product: Product, quantity: Int) {
             modifier = Modifier.padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                painter = painterResource(id = product.image),
-                contentDescription = product.name,
+            AsyncImage(
+                model = product.image,
+                contentDescription = product.title,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(64.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text(text = product.name, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+                Text(text = product.title, fontSize = 18.sp, fontWeight = FontWeight.Bold)
                 Text(text =  "S/. %.2f".format(product.price))
             }
             Text(text = "x$quantity", fontSize = 18.sp)

@@ -50,7 +50,7 @@ fun CheckoutScreen(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "${product.name} (x$quantity)",
+                        text = "${product.title} (x$quantity)",
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.weight(1f)
                     )
