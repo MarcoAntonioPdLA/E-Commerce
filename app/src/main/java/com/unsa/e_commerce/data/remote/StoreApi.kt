@@ -4,7 +4,7 @@ import com.unsa.e_commerce.data.models.Product
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface FakeStoreApi {
+interface StoreApi {
     @GET("products")
     suspend fun getProducts(): List<Product>
 

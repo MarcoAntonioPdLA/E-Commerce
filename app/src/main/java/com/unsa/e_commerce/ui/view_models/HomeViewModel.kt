@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(
             try {
                 products = repository.getAllProducts()
             } catch (e: Exception) {
-                // Manejar error si es necesario
+                e.printStackTrace()
             }
         }
     }
